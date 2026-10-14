@@ -1,8 +1,4 @@
-# backend/m3_laporan.py
-# Modul Milestone 3: Sort & Search (Insertion Sort, Merge Sort, Linear Search, Binary Search)
-
 class Pesanan:
-    """Kelas representasi data satu pesanan dari pesanan.csv."""
     def __init__(self, oid, pelanggan, resto, menu, harga, prioritas, t_masuk, t_selesai, status):
         self.oid = oid
         self.pelanggan = pelanggan
@@ -41,7 +37,6 @@ class Pesanan:
 
 
 def parse_csv_line(line):
-    """Mem-parse baris CSV tanpa library instan, mendukung nilai yang diapit tanda petik ganda."""
     fields = []
     curr = []
     in_quotes = False
@@ -58,31 +53,19 @@ def parse_csv_line(line):
 
 
 def ambil_kunci(item, kunci):
-    """
-    Mengambil nilai kunci perbandingan dari item.
-    Mendukung item berupa objek Pesanan maupun nilai primitif.
-    """
     if isinstance(item, Pesanan):
         if kunci == 'oid':
             return item.oid
         elif kunci == 'harga':
             return item.harga
         elif kunci == 'selesai':
-            # Jika t_selesai None (belum selesai/batal), letakkan di urutan paling belakang
             return item.t_selesai if item.t_selesai is not None else 999999999
         return item.oid
-    # Jika item adalah tuple, list, atau primitif
     return item
 
 
 def insertion_sort(A, kunci='harga'):
-    """
-    Insertion Sort bekerja di tempat dan STABIL: O(n^2).
-    Syarat penggeseran memakai lebih besar (>), bukan lebih besar atau sama dengan (>=).
-    Mengembalikan: (array_terurut, jumlah_perbandingan, jumlah_pemindahan)
-    """
     n = len(A)
-    # Buat salinan larik agar tidak mengubah larik asli
     hasil = [A[idx] for idx in range(n)]
     
     comps = 0
@@ -92,8 +75,6 @@ def insertion_sort(A, kunci='harga'):
         key_item = hasil[i]
         key_val = ambil_kunci(key_item, kunci)
         j = i - 1
-        
-        # Bandingkan dan geser ke kanan jika elemen di kiri lebih besar (STABIL: >)
         while j >= 0:
             comps += 1
             if ambil_kunci(hasil[j], kunci) > key_val:
@@ -104,17 +85,12 @@ def insertion_sort(A, kunci='harga'):
                 break
                 
         hasil[j + 1] = key_item
-        moves += 1  # Penempatan key_item pada posisi akhir
+        moves += 1 
         
     return hasil, comps, moves
 
 
 def merge_sort(A, kunci='harga'):
-    """
-    Merge Sort membelah dan menggabungkan secara STABIL: O(n log n).
-    Syarat penggabungan memakai <= agar elemen dari bagian kiri selalu didahulukan saat kuncinya sama.
-    Mengembalikan: (array_terurut, jumlah_perbandingan, jumlah_pemindahan)
-    """
     comps = 0
     moves = 0
     
@@ -137,7 +113,6 @@ def merge_sort(A, kunci='harga'):
         
         while i < len_l and j < len_r:
             comps += 1
-            # STABIL: pakai <= agar elemen kiri didahulukan saat nilai kuncinya sama
             if ambil_kunci(left[i], kunci) <= ambil_kunci(right[j], kunci):
                 merged[k] = left[i]
                 moves += 1
@@ -167,12 +142,6 @@ def merge_sort(A, kunci='harga'):
 
 
 def linear_search(A, target):
-    """
-    Linear Search: menelusuri elemen satu per satu dari indeks 0: O(n).
-    Target dicocokkan dengan target (oid jika Pesanan).
-    Mengembalikan: (indeks_ditemukan, jumlah_perbandingan)
-    Jika tidak ditemukan, indeks bernilai -1.
-    """
     comps = 0
     for idx in range(len(A)):
         comps += 1
@@ -183,12 +152,6 @@ def linear_search(A, target):
 
 
 def binary_search(A, target):
-    """
-    Binary Search: mencari pada larik yang SUDAH TERURUT: O(log n).
-    Kondisi perulangan: lo <= hi.
-    Mengembalikan: (indeks_ditemukan, jumlah_perbandingan)
-    Jika tidak ditemukan, indeks bernilai -1.
-    """
     lo = 0
     hi = len(A) - 1
     comps = 0

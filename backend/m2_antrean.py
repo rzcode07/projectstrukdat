@@ -1,5 +1,4 @@
 class Stack:
-    """Tumpukan (stack) di atas Larik: push, pop, peek, kosong."""
     def __init__(self, capacity=10):
         self.capacity = capacity
         self.data = [None] * capacity
@@ -39,11 +38,7 @@ class Stack:
         self.data = new_data
         self.capacity = new_cap
 
-
-# --- PEMROSESAN STRUK KASIR ---
-
 def tokenize(ekspresi):
-    """Memecah string ekspresi menjadi array token."""
     tokens = []
     i = 0
     while i < len(ekspresi):
@@ -61,13 +56,11 @@ def tokenize(ekspresi):
     return tokens
 
 def prioritas(op):
-    """Menentukan tingkat prioritas operator."""
     if op in ('*', '/'): return 2
     if op in ('+', '-'): return 1
     return 0
 
 def ke_postfix(ekspresi):
-    """Mengubah struk infix menjadi postfix memakai stack operator."""
     tokens = tokenize(ekspresi)
     output = []
     s = Stack()
@@ -93,7 +86,6 @@ def ke_postfix(ekspresi):
     return output
 
 def hitung(postfix):
-    """Mengevaluasi postfix memakai stack angka, mengembalikan totalnya."""
     s = Stack()
     for token in postfix:
         if token.isdigit():
@@ -109,26 +101,21 @@ def hitung(postfix):
             elif token == '/': s.push(a // b)
     return s.pop()
 
-
-# --- ANTREAN NAIF & MELINGKAR ---
-
 class AntreanNaif:
-    """Antrean naif di atas larik biasa. Geser ke kiri setiap kali dequeue."""
+    
     def __init__(self, capacity=10):
         self.capacity = capacity
         self.data = [None] * capacity
         self.size = 0
-        self.geseran = 0 # Menyimpan jumlah geseran untuk statistik
+        self.geseran = 0
         
     def enqueue(self, x):
-        """Menempel di belakang."""
         if self.size == self.capacity:
             self._resize()
         self.data[self.size] = x
         self.size += 1
         
     def dequeue(self):
-        """Mengambil indeks 0 dan menggeser seluruh sisa elemen."""
         if self.size == 0: return None
         x = self.data[0]
         for i in range(1, self.size):
@@ -139,7 +126,6 @@ class AntreanNaif:
         return x
         
     def dequeue_back(self):
-        """Untuk undo enqueue: keluarkan dari belakang antrean."""
         if self.size == 0: return None
         x = self.data[self.size - 1]
         self.data[self.size - 1] = None
@@ -147,10 +133,8 @@ class AntreanNaif:
         return x
         
     def enqueue_front(self, x):
-        """Untuk undo dequeue: kembalikan isinya ke depan antrean."""
         if self.size == self.capacity:
             self._resize()
-        # Geser ke kanan untuk memberi ruang di depan
         for i in range(self.size, 0, -1):
             self.data[i] = self.data[i-1]
             self.geseran += 1
@@ -167,14 +151,13 @@ class AntreanNaif:
 
 
 class AntreanMelingkar:
-    """Antrean melingkar dengan data, front, rear, dan count."""
-    def __init__(self, capacity=4): # Kapasitas awal kecil sesuai perintah (K=4)
+    def __init__(self, capacity=4):
         self.capacity = capacity
         self.data = [None] * capacity
         self.front = 0
         self.rear = 0
         self.count = 0
-        self.geseran = 0 # circular queue = 0 geseran saat dequeue
+        self.geseran = 0 
         
     def enqueue(self, x):
         if self.count == self.capacity:
@@ -192,7 +175,6 @@ class AntreanMelingkar:
         return x
         
     def dequeue_back(self):
-        """Untuk undo enqueue: keluarkan lagi dari belakang antrean."""
         if self.count == 0: return None
         self.rear = (self.rear - 1) % self.capacity
         x = self.data[self.rear]
@@ -201,7 +183,6 @@ class AntreanMelingkar:
         return x
         
     def enqueue_front(self, x):
-        """Untuk undo dequeue: kembalikan seluruh isinya ke depan antrean."""
         if self.count == self.capacity:
             self._resize()
         self.front = (self.front - 1) % self.capacity
