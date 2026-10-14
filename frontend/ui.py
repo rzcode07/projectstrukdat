@@ -90,10 +90,7 @@ class AppUI:
             ("ITEM", "SORT - INSERTION SORT"),
             ("ITEM", "SORT - MERGE SORT"),
             ("ITEM", "SEARCH - LINEAR SEARCH"),
-            ("ITEM", "SEARCH - BINARY SEARCH"),
-            # M4
-            ("HEADER", "M4 - HASH TABLE"),
-            ("ITEM", "Bangun indeks hash")
+            ("ITEM", "SEARCH - BINARY SEARCH")
         ]
         
         # Listbox Navigasi Menu
@@ -389,10 +386,6 @@ class AppUI:
                 self.lbl_desc.config(text="Masukkan data pesanan ke belakang antrean.")
                 self.lbl_def_input.config(text="Data Pesanan:")
                 self.lbl_note.config(text="Enqueue menambahkan elemen ke belakang kedua antrean sekaligus.")
-            elif "Bangun indeks hash" in self.current_menu:
-                self.lbl_desc.config(text="Persiapan modul Milestone 4 (PetaHash).")
-                self.lbl_def_input.config(text="-")
-                self.lbl_note.config(text="Fitur akan dibuka pada Milestone 4.")
             else:
                 if "REGULER" in self.current_menu:
                     self.lbl_desc.config(text="Tambah di belakang barisan.")
