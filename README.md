@@ -1,6 +1,8 @@
 2EZ4U APP - Struktur Data & Algoritma Backend
-Repositori ini berisi implementasi backend struktur data dan algoritma untuk aplikasi 2EZ4U. Proyek ini dibuat untuk memecahkan studi kasus manajemen pesanan restoran dan kasir cerdas.
+Repositori ini berisi implementasi backend struktur data dan algoritma untuk aplikasi 2EZ4U. 
 ---
+Proyek ini dibuat untuk memecahkan studi kasus manajemen pesanan restoran dan kasir cerdas.
+
 Struktur Proyek & Modul
 ```text
 projectstrukdat/
